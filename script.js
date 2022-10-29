@@ -111,7 +111,7 @@ form.append(" " + location.search);
 
 /* Explorer */
 sum = 0;
-for (let i = 0; i < 13; i++) { sum += answer_value = parseInt(params["q" + i]); };
+for (let i = 0; i <= 13; i++) { sum += answer_value = parseInt(params["q" + i]); };
 if (Number.isNaN(sum)) { score = "?" }
 else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
 result = document.createElement("li");
@@ -120,7 +120,7 @@ results.appendChild(result);
 
 /* Builder */
 sum = 0;
-for (let i = 14; i < 27; i++) { sum += answer_value = parseInt(params["q" + i]); };
+for (let i = 14; i <= 27; i++) { sum += answer_value = parseInt(params["q" + i]); };
 if (Number.isNaN(sum)) { score = "?" }
 else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
 result = document.createElement("li");
@@ -129,7 +129,7 @@ results.appendChild(result);
 
 /* Director */
 sum = 0;
-for (let i = 28; i < 41; i++) { sum += answer_value = parseInt(params["q" + i]); };
+for (let i = 28; i <= 41; i++) { sum += answer_value = parseInt(params["q" + i]); };
 if (Number.isNaN(sum)) { score = "?" }
 else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
 result = document.createElement("li");
@@ -138,7 +138,7 @@ results.appendChild(result);
 
 /* Negotiator */
 sum = 0;
-for (let i = 42; i < 55; i++) { sum += answer_value = parseInt(params["q" + i]); };
+for (let i = 42; i <= 55; i++) { sum += answer_value = parseInt(params["q" + i]); };
 if (Number.isNaN(sum)) { score = "?" }
 else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
 result = document.createElement("li");
