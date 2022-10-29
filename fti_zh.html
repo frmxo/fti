@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>費舍爾氣質量表</title>
 <style>
 fieldset {display: inline-block;}
@@ -84,11 +85,13 @@ const all_options = ["完全不同意", "不同意", "同意", "完全同意"]
 
 form = document.getElementById("fti");
 
-form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Update"}));
-form.append(" " + Object.keys(params).length + "/56 ");
-
 results = document.createElement("ul");
 form.appendChild(results);
+
+form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Update"}));
+form.append(" " + Object.keys(params).length + "/56 ");
+form.appendChild(document.createElement("br"));
+form.appendChild(document.createElement("br"));
 
 questions.forEach(function (item, q_index) {
     let question = document.createElement("b");

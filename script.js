@@ -70,11 +70,13 @@ const all_options = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"]
 
 form = document.getElementById("fti");
 
-form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Update"}));
-form.append(" " + Object.keys(params).length + "/56 ");
-
 results = document.createElement("ul");
 form.appendChild(results);
+
+form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Update"}));
+form.append(" " + Object.keys(params).length + "/56 ");
+form.appendChild(document.createElement("br"));
+form.appendChild(document.createElement("br"));
 
 questions.forEach(function (item, q_index) {
     let question = document.createElement("b");
