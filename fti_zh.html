@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>費舍爾氣質量表</title>
+<style>
+fieldset {display: inline-block;}
+</style>
+</head>
+<body>
+<form id="fti">
+    <b><a href="?">費舍爾氣質量表</a></b>
+</form>
+<script>
+/*
+ * https://theanatomyoflove.com/relationship-quizzes/helen-fishers-personality-test/
+ * https://theanatomyoflove.com/relationship-quizzes/helen-fishers-personality-test/personality-type-combinations/
+ * https://helenfisher.com/personality/
+ */
+const params = Object.fromEntries(new URLSearchParams(location.search));
+const questions = [
+    /* Explorer */
+    "1. 不可預知的情況會讓我感到興奮。",
+    "2. 我會一時衝動去做某些事。",
+    "3. 當我不得不重複做熟悉的事情時會感到枯燥。",
+    "4. 我有非常廣泛的興趣愛好。",
+    "5. 我比大多數人都更加樂觀。",
+    "6. 我比大多數人都更有創造力。",
+    "7. 我總是尋求新的體驗。",
+    "8. 我總是嘗試新事物。",
+    "9. 我比大多數人都更加熱情。",
+    "10. 我願意冒險去做些我想做的事。",
+    "11. 哪怕在家裡呆上片刻，我都會覺得不安。",
+    "12. 我的朋友認為我很有好奇心。",
+    "13. 我比大多數人都更加精力充沛。",
+    "14. 空閒時間，我喜歡悠閒地做些看起來很有趣的事情。",
+    /* Builder */
+    "15. 我認為遵循慣例能讓生活有條不紊、輕鬆愜意。",
+    "16. 我會在製定計畫前認真考慮（並再三考慮）每一個選擇。",
+    "17. 人們應該按照既定的正確行為規範行事。",
+    "18. 我樂於提前製定計畫。",
+    "19. 總的來說，我認為遵守規則是很重要的。",
+    "20. 管好個人財物是我要優先考慮的事情。",
+    "21. 我的朋友和家人說我的價值觀很傳統。",
+    "22. 我對工作一絲不苟。",
+    "23. 我一般小心謹慎，但並不膽小怕事。",
+    "24. 人們做事應該遵守道德規範。",
+    "25. 尊重威權很重要。",
+    "26. 與興趣相同的朋友相比，我更願意結交忠誠的朋友。",
+    "27. 應該尊重和維持長期以來形成的風俗習慣。",
+    "28. 在工作中，我喜歡以直截了當的模式完成任務。",
+    /* Director */
+    "29. 我能輕鬆掌握複雜的機械。",
+    "30. 我喜歡有爭論的談話。",
+    "31. 我對支配體系的規則和模式很感興趣。",
+    "32. 我比大多數人更善於分析、更富有邏輯頭腦。",
+    "33. 我經常與人詳細討論深奧的話題。",
+    "34. 我能夠不受個人情緒影響解決問題。",
+    "35. 我喜歡弄明白事物的工作原理。",
+    "36. 我意志堅定。",
+    "37. 辯論是我和他人智慧碰撞的一個很好的途徑。",
+    "38. 即時最初有幾個不相上下的選項，我也能毫無困難地做出選擇。",
+    "39. 當我買了部新設備（如照相機、電腦或者汽車）時，我想弄清它所有的技術特徵。",
+    "40. 我一般會避免含糊其辭，並準確表達我的意思。",
+    "41. 我認為直率很重要。",
+    "42. 在做決定時，我喜歡著眼於事實，不會被其他人的情緒所左右。",
+    /* Negotiator */
+    "43. 我喜歡去了解朋友們最深層次的需求和感受。",
+    "44. 我非常重視我的人際關係中的親密感情。",
+    "45. 在做重要決定時，無論是否合乎邏輯，我總是聽從內心的安排。",
+    "46. 我常常發現自己在做白日夢。",
+    "47. 我能很快調整自己的情緒。",
+    "48. 看完一部情感片幾個小時後，我仍會覺得感動。",
+    "49. 我能形象生動地想像出即將發生在我身上的事情，無論好壞。",
+    "50. 我對他人的感覺和需求非常敏感。",
+    "51. 我經常發現自己整天都陷於思考中。",
+    "52. 我能比大多數人更深刻地體會情感。",
+    "53. 我有豐富的想像力。",
+    "54. 當我從一個栩栩如生的夢境中醒來時，需要花一會兒時間才能回到現實中。",
+    "55. 在閱讀時，我很享受作者偶爾跑題，說一些很美好、很有意義的東西。",
+    "56. 我非常有同情心。"
+]
+const all_options = ["完全不同意", "不同意", "同意", "完全同意"]
+
+form = document.getElementById("fti");
+
+form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Update"}));
+form.append(" " + Object.keys(params).length + "/56 ");
+
+results = document.createElement("ul");
+form.appendChild(results);
+
+questions.forEach(function (item, q_index) {
+    let question = document.createElement("b");
+    question.innerText = item;
+    form.append(question);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
+    const answers = document.createElement("fieldset");
+    answers.id = "q" + q_index;
+    all_options.forEach(function (item, a_index) {
+        option = document.createElement("input");
+        option.type = "radio";
+        option.value = a_index;
+        option.name = "q" + q_index;
+        option.checked = params["q" + q_index] == a_index;
+        answers.append(option);
+        var lbl = document.createElement("lable");
+        lbl.innerText = " " + item;
+        answers.append(lbl);
+        var newline = document.createElement("br");
+        answers.append(newline);
+    });
+    form.appendChild(answers);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
+});
+
+form.append(location.search);
+
+/* results = document.getElementById("results"); */
+
+/* Explorer */
+sum = 0;
+for (let i = 0; i < 13; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "開拓者（多巴胺）" + score;
+results.appendChild(result);
+
+/* Builder */
+sum = 0;
+for (let i = 14; i < 27; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "建設者（血清素）" + score
+results.appendChild(result);
+
+/* Director */
+sum = 0;
+for (let i = 28; i < 41; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "領導者（睪固酮）" + score;
+results.appendChild(result);
+
+/* Negotiator */
+sum = 0;
+for (let i = 42; i < 55; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "協調者（雌激素）" + score;
+results.appendChild(result);
+</script>
+</body>

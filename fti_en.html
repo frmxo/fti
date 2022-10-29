@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fisher Temperament Inventory</title>
+<style>
+fieldset {display: inline-block;}
+</style>
+</head>
+<body>
+<form id="fti">
+    <b><a href="?">Fisher Temperament Inventory</a></b>
+</form>
+<script>
+/*
+ * https://theanatomyoflove.com/relationship-quizzes/helen-fishers-personality-test/
+ * https://theanatomyoflove.com/relationship-quizzes/helen-fishers-personality-test/personality-type-combinations/
+ * https://helenfisher.com/personality/
+ */
+const params = Object.fromEntries(new URLSearchParams(location.search));
+const questions = [
+    /* Explorer */
+    "1. I find unpredictable situations exhilarating.",
+    "2. I do things on the spur of the moment.",
+    "3. I get bored when I have to do the same familiar things.",
+    "4. I have a very wide range of interests.",
+    "5. I am more optimistic than most people.",
+    "6. I am more creative than most people.",
+    "7. I am always looking for new experiences.",
+    "8. I am always doing new things.",
+    "9. I am more enthusiastic than most people.",
+    "10. I am willing to take risks to do what I want to do.",
+    "11. I get restless if I have to stay home for any length of time.",
+    "12. My friends would say I am very curious.",
+    "13. I have more energy than most people.",
+    "14. On my time off, I like to be free to do whatever looks fun.",
+    /* Builder */
+    "15. I think consistent routines keep life orderly and relaxing.",
+    "16. I consider (and reconsider) every option thoroughly before making a plan.",
+    "17. People should behave according to established standards of proper conduct.",
+    "18. I enjoy planning way ahead.",
+    "19. In general, I think it is important to follow rules.",
+    "20. Taking care of my possessions is a high priority for me.",
+    "21. My friends and family would say I have traditional values.",
+    "22. I tend to be meticulous in my duties.",
+    "23. I tend to be cautious, but not fearful.",
+    "24. People should behave in ways that are morally correct.",
+    "25. It is important to respect authority.",
+    "26. I would rather have loyal friends than interesting friends.",
+    "27. Long established customs need to be respected and preserved.",
+    "28. I like to work in a straightforward path toward completing the task.",
+    /* Director */
+    "29. I understand complex machines easily.",
+    "30. I enjoy competitive conversations.",
+    "31. I am intrigued by rules and patterns that govern systems.",
+    "32. I am more analytical and logical than most people.",
+    "33. I pursue intellectual topics thoroughly and regularly.",
+    "34. I am able to solve problems without letting emotion get in the way.",
+    "35. I like to figure out how things work.",
+    "36. I am tough-minded.",
+    "37. Debating is a good way to match my wits with others.",
+    "38. I have no trouble making a choice, even when several alternatives seem equally good at first.",
+    "39. When I buy a new machine (like a camera, computer or car), I want to know all of its technical features.",
+    "40. I like to avoid the nuances and say exactly what I mean.",
+    "41. I think it is important to be direct.",
+    "42. When making a decision, I like to stick to the facts rather than be swayed by people’s feelings.",
+    /* Negotiator */
+    "43. I like to get to know my friends’ deepest needs and feelings.",
+    "44. I highly value deep emotional intimacy in my relationships.",
+    "45. Regardless of what is logical, I generally listen to my heart when making important decisions.",
+    "46. I frequently catch myself daydreaming.",
+    "47. I can change my mind easily.",
+    "48. After watching an emotional film I often still feel moved by it several hours later.",
+    "49. I vividly imagine both wonderful and horrible things happening to me.",
+    "50. I am very sensitive to people’s feelings and needs.",
+    "51. I often find myself getting lost in my thoughts during the day.",
+    "52. I feel emotions more deeply than most people.",
+    "53. I have a vivid imagination.",
+    "54. When I wake up from a vivid dream, it takes me a few seconds to return to reality.",
+    "55. When reading, I enjoy it when the writer takes a sidetrack to say something beautiful or meaningful.",
+    "56. I am very empathetic."
+]
+const all_options = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"]
+
+form = document.getElementById("fti");
+
+form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Update"}));
+form.append(" " + Object.keys(params).length + "/56 ");
+
+results = document.createElement("ul");
+form.appendChild(results);
+
+questions.forEach(function (item, q_index) {
+    let question = document.createElement("b");
+    question.innerText = item;
+    form.append(question);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
+    const answers = document.createElement("fieldset");
+    answers.id = "q" + q_index;
+    all_options.forEach(function (item, a_index) {
+        option = document.createElement("input");
+        option.type = "radio";
+        option.value = a_index;
+        option.name = "q" + q_index;
+        option.checked = params["q" + q_index] == a_index;
+        answers.append(option);
+        var lbl = document.createElement("lable");
+        lbl.innerText = " " + item;
+        answers.append(lbl);
+        var newline = document.createElement("br");
+        answers.append(newline);
+    });
+    form.appendChild(answers);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
+});
+
+form.append(location.search);
+
+/* results = document.getElementById("results"); */
+
+/* Explorer */
+sum = 0;
+for (let i = 0; i < 13; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "Explorer (dopamine) " + score;
+results.appendChild(result);
+
+/* Builder */
+sum = 0;
+for (let i = 14; i < 27; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "Builder (serotonin) " + score
+results.appendChild(result);
+
+/* Director */
+sum = 0;
+for (let i = 28; i < 41; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "Director (testosterone) " + score;
+results.appendChild(result);
+
+/* Negotiator */
+sum = 0;
+for (let i = 42; i < 55; i++) { sum += answer_value = parseInt(params["q" + i]); };
+if (Number.isNaN(sum)) { score = "?" }
+else { score = sum + "/42 (" + Math.round((sum / 42) * 100) + "%)"; }
+result = document.createElement("li");
+result.innerText = "Negotiator (estrogen) " + score;
+results.appendChild(result);
+</script>
+</body>
