@@ -104,7 +104,8 @@ questions.forEach(function (item, q_index) {
     form.appendChild(document.createElement("br"));
 });
 
-form.append(location.search);
+form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Show Results"}));
+form.append(" " + location.search);
 
 /* results = document.getElementById("results"); */
 
