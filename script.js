@@ -66,6 +66,7 @@ const questions = [
     "55. When reading, I enjoy it when the writer takes a sidetrack to say something beautiful or meaningful.",
     "56. I am very empathetic."
 ]
+const pagebreak_numbers = [13, 27, 41];
 const all_options = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"]
 
 form = document.getElementById("fti");
@@ -102,12 +103,14 @@ questions.forEach(function (item, q_index) {
     form.appendChild(answers);
     form.appendChild(document.createElement("br"));
     form.appendChild(document.createElement("br"));
+    if (pagebreak_numbers.includes(q_index)) {
+        form.appendChild(document.createElement("hr"));
+        form.appendChild(document.createElement("br"));
+    };
 });
 
 form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"Show Results"}));
 form.append(" " + location.search);
-
-/* results = document.getElementById("results"); */
 
 /* Explorer */
 sum = 0;

@@ -81,6 +81,7 @@ const questions = [
     "55. 在閱讀時，我很享受作者偶爾跑題，說一些很美好、很有意義的東西。",
     "56. 我非常有同情心。"
 ]
+const pagebreak_numbers = [13, 27, 41];
 const all_options = ["完全不同意", "不同意", "同意", "完全同意"]
 
 form = document.getElementById("fti");
@@ -117,12 +118,14 @@ questions.forEach(function (item, q_index) {
     form.appendChild(answers);
     form.appendChild(document.createElement("br"));
     form.appendChild(document.createElement("br"));
+    if (pagebreak_numbers.includes(q_index)) {
+        form.appendChild(document.createElement("hr"));
+        form.appendChild(document.createElement("br"));
+    };
 });
 
 form.appendChild(Object.assign(document.createElement("input"),{type:"submit", value:"查看測驗結果"}));
 form.append(" " + location.search);
-
-/* results = document.getElementById("results"); */
 
 /* Explorer */
 sum = 0;
